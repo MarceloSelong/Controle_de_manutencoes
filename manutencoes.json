@@ -1,0 +1,26 @@
+[
+    {
+        "placa": "QHZ3A05",
+        "modelo": "Versa",
+        "marca": "Nissan",
+        "ano": 2016,
+        "lista_de_manutencoes": [
+            {
+                "descricao": "Troca de óleo",
+                "custo": 35.0,
+                "data": "14/08/2025",
+                "quilometragem": 325500,
+                "lista_de_pecas": [
+                    {
+                        "descricao": "5w30 Sintético Ipiranga",
+                        "custo": 35.0
+                    },
+                    {
+                        "descricao": "Filtro de óleo",
+                        "custo": 23.0
+                    }
+                ]
+            }
+        ]
+    }
+]
