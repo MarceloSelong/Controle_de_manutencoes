@@ -1,9 +1,9 @@
 def verificar_placa_nos_dados(placa, dados):
-    for chave in dados:
-        if placa == chave["placa"]:
+    for linha in dados:
+        if linha[0] == placa:
             return True
-        else:
-            return False
+    else:
+        return False
 
 
 
