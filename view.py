@@ -59,9 +59,10 @@ def reentrada_custo():
     return reentrada
 
 def entrada_pecas():
-    descricao_da_peca = input("Informe a peça que foi utilizada: ").strip()
+    descricao_da_peca = input("Informe a peça/item que foi utilizado: ").strip().capitalize()
+    marca_da_peca = input("Informe a marca do item utilizado: ").strip().capitalize()
     valor_peca = input("Informe o valor dela: ").strip().replace(",", ".").replace(" ", "")
-    return descricao_da_peca, valor_peca
+    return descricao_da_peca, marca_da_peca, valor_peca
 
 def reentrada_valor_da_peca():
     reentrada = input("Valor inválido, informe um valor numérico: ").strip().replace(",", ".").replace(" ", "")

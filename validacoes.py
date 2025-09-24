@@ -74,3 +74,10 @@ def validar_escolha_de_deletar_manutencao(escolha, tamanho_dados_do_carro):
             return False, escolha_int
     except:
         return False
+
+def verificar_placa_nos_dados(placa, dados):
+    for linha in dados:
+        if linha[0] == placa:
+            return True
+    else:
+        return False
