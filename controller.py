@@ -63,7 +63,6 @@ def executar_controller():
     arquivos.inicializar_arquivo()
     while True:
         escolha = view.menu()
-    
         while True: #Faz a validação da escolha do usuário pra saber qual processo o código irá realizar
             validacao, escolha = validacoes.validar_escolha_do_menu(escolha)
             if validacao == True:
@@ -78,13 +77,13 @@ def executar_controller():
                 if validacao:
                     break
                 else:
-                    placa = view.reescolha_da_placa()
+                    placa = view.reescolha_da_placa()       
             
             dados = arquivos.carregar_placas()
+            
             if validacoes.verificar_placa_nos_dados(placa, dados): #Se a placa já existir no sistema, cadastraremos uma nova manutenção nele.
                 id_veiculo = arquivos.retorno_id_veiculo(placa)
                 nova_manutencao(id_veiculo)
-
             else: #Se a placa não existir no sistema, pergunta se deseja cadastrar novo veículo.
                 escolha = view.escolha_de_cadastrar_novo_veiculo()
                 while True: # Valida a escolha de cadastrar novo veículo
@@ -113,8 +112,6 @@ def executar_controller():
                 else: #Retorna ao menu de escolha
                     pass
 
-
- 
         elif escolha == 2: #LISTA AS MANUTENÇÕES DO VEÍCULO ESCOLHIDO
             placa = view.pedir_placa()
             while True: #Faz a validação da placa
@@ -123,6 +120,13 @@ def executar_controller():
                     break
                 else:
                     placa = view.reescolha_da_placa()
+            dados = arquivos.carregar_dados(placa)
+            if not dados:
+                print("\nNão existem manutenções no veículo com esta placa.\n")
+            else:
+                view.listar_manutencoes(dados)
+
+            """        
             dados = arquivos.carregar_dados()
             if dados == []:
                 print("Arquivo vazio.")
@@ -133,7 +137,7 @@ def executar_controller():
                         view.listar_manutencoes(dados_do_veiculo)
                     else:
                         print(f"\nNão existe cadastro do veículo de placa {placa}.\n")
-            
+            """
         elif escolha == 3:
             placa = view.pedir_placa()
             while True: #Faz a validação da placa

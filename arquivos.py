@@ -93,3 +93,13 @@ def retorno_id_veiculo(placa):
         """, (placa,))
         resultado = cursor.fetchone()
         return resultado[0]
+def carregar_dados(placa):
+    with sqlite3.connect("database/banco.db") as conexao:
+        cursor = conexao.cursor()
+        cursor.execute("""
+            SELECT descricao, custo, data
+            FROM manutencoes
+            JOIN veiculos ON manutencoes.id_carro = veiculos.id
+            WHERE placa = ?
+        """, (placa,))
+        return cursor.fetchall()
