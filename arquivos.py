@@ -54,9 +54,9 @@ def salvar_veiculo(placa, modelo, marca, ano):
                 VALUES(?, ?, ?, ?)
             """, (placa, modelo, marca, ano))
         return cursor.lastrowid
-    except:
-        return "Houve um erro desconhecido, repita a operação."
-    
+    except Exception as e:
+        print(f"Erro ao salvar no banco: \033[1;31m{e}\033[0m")
+        return 0   
 def salvar_servico(id_carro, descricao, custo, data, quilometragem):
     #Salva o serviço realizado no BD e retorna o Id dele
     try:
@@ -70,7 +70,6 @@ def salvar_servico(id_carro, descricao, custo, data, quilometragem):
     except Exception as e:
         print(f"Erro ao salvar no banco: \033[1;31m{e}\033[0m")
         return 0
-
 def salvar_peca(id_servico, descricao_da_peca, marca_da_peca, valor_da_peca):
     #Salva os dados do item utilizado no BD
     try:
@@ -84,3 +83,13 @@ def salvar_peca(id_servico, descricao_da_peca, marca_da_peca, valor_da_peca):
     except Exception as e:
         print(f"Erro ao salvar no banco: \033[1;31m{e}\033[0m")
         return 0
+def retorno_id_veiculo(placa):
+    with sqlite3.connect("database/banco.db") as conexao:
+        cursor = conexao.cursor()
+        cursor.execute("""
+            SELECT id
+            FROM veiculos
+            WHERE placa = ?
+        """, (placa,))
+        resultado = cursor.fetchone()
+        return resultado[0]

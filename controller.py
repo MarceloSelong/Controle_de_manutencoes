@@ -59,7 +59,6 @@ def nova_manutencao(id_veiculo):
                 break
             else:
                 continuar_informando_servicos = view.reescolha_informar_mais()
-
 def executar_controller():
     arquivos.inicializar_arquivo()
     while True:
@@ -83,7 +82,8 @@ def executar_controller():
             
             dados = arquivos.carregar_placas()
             if validacoes.verificar_placa_nos_dados(placa, dados): #Se a placa já existir no sistema, cadastraremos uma nova manutenção nele.
-                manutencao = nova_manutencao()
+                id_veiculo = arquivos.retorno_id_veiculo(placa)
+                nova_manutencao(id_veiculo)
 
             else: #Se a placa não existir no sistema, pergunta se deseja cadastrar novo veículo.
                 escolha = view.escolha_de_cadastrar_novo_veiculo()
@@ -99,23 +99,17 @@ def executar_controller():
                         validacao, ano = validacoes.validar_ano(ano)
                         if validacao:
                             id_veiculo = arquivos.salvar_veiculo(placa, modelo, marca, ano) #Puxa a placa do início, onde foi informada pra verificação no sistema
-                            if id_veiculo == str:
-                                print(id_veiculo)
+                            if id_veiculo == 0:
                                 break
                             else:
                                 break
                         else:
                             ano = view.reescolha_ano()
-                    if id_veiculo == str: #Se ocorrer erro no salvamento do veículo no arquivo, pula a iteração e retorna pro início do laço novamente.
+                    if id_veiculo == 0: #Se ocorrer erro no salvamento do veículo no arquivo, pula a iteração e retorna pro início do laço novamente.
                         continue
 
-                    #---------------CADASTRO DA NOVA MANUTENÇÃO--------------#
-                    
-                    manutencao = nova_manutencao(id_veiculo) 
-
-
-
-
+                    #---------------CADASTRO DA NOVA MANUTENÇÃO--------------# 
+                    nova_manutencao(id_veiculo) 
                 else: #Retorna ao menu de escolha
                     pass
 
@@ -172,5 +166,4 @@ def executar_controller():
         
         elif escolha == 0:
             quit()
-
 executar_controller()
