@@ -63,10 +63,13 @@ def informar_mais_servicos():
     continuar = input("Deseja informar mais serviços? [S/N]: ").strip().upper()
     return continuar
 def listar_manutencoes(dados):
-    print(f"\n{'Serviço':^20}{'Valor':^8}{'Data':^12}")
-    for c in dados:
-        print(f"{c[0]:^20}{c[1]:^8}{c[2]:^12}")
-    print()
+    if dados == []:
+        print("\nNão há manutenções no veículo informado.\n")
+    else:
+        print(f"\n{'Nº':<3}{'Serviço':^25}{'Valor':^8}{'Data':^12}{'Quilometragem':^13}")
+        for c, v in enumerate(dados,start=1):
+            print(f"{c:<3}{v[0]:^25}{v[1]:^8}{v[2]:^12}{v[3]:^13}")
+        print()
 def escolha_deletar_manutencao():
     escolha = input("Escolha a numeração da manutenção a ser apagada conforme a lista acima: ")
     return escolha

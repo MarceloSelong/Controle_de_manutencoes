@@ -1,4 +1,4 @@
-import os, json, sqlite3
+import os, sqlite3
 def inicializar_arquivo():
     os.makedirs("database", exist_ok=True)
     if not os.path.exists("database/banco.db"):
@@ -97,9 +97,24 @@ def carregar_dados(placa):
     with sqlite3.connect("database/banco.db") as conexao:
         cursor = conexao.cursor()
         cursor.execute("""
-            SELECT descricao, custo, data
+            SELECT descricao, custo, data, quilometragem
             FROM manutencoes
             JOIN veiculos ON manutencoes.id_carro = veiculos.id
             WHERE placa = ?
         """, (placa,))
         return cursor.fetchall()
+def deletar_manutencao(id_manutencao):
+    try:
+        with sqlite3.connect("database/banco.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("""
+                DELETE FROM manutencoes
+                WHERE id = ?
+            """,(id_manutencao,))
+            cursor.execute("""
+                DELETE FROM pecas
+                WHERE id_manutencao = ?
+            """,(id_manutencao,))
+        print("\nDeletada com sucesso.\n")
+    except Exception as e:
+        print(f"Erro ao apagar do banco: \033[1;31m{e}\033[0m")

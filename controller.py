@@ -126,19 +126,7 @@ def executar_controller():
             else:
                 view.listar_manutencoes(dados)
 
-            """        
-            dados = arquivos.carregar_dados()
-            if dados == []:
-                print("Arquivo vazio.")
-            else:
-                for carro in dados:
-                    if carro["placa"] == placa:
-                        dados_do_veiculo = carro
-                        view.listar_manutencoes(dados_do_veiculo)
-                    else:
-                        print(f"\nNão existe cadastro do veículo de placa {placa}.\n")
-            """
-        elif escolha == 3:
+        elif escolha == 3:#DELETA A MANUTENÇÃO ESCOLHIDA DO VEÍCULO
             placa = view.pedir_placa()
             while True: #Faz a validação da placa
                 validacao, placa = validacoes.validar_placa(placa)
@@ -146,28 +134,18 @@ def executar_controller():
                     break
                 else:
                     placa = view.reescolha_da_placa()
-            dados = arquivos.carregar_dados()
-            for carro in dados:
-                if carro["placa"] == placa:
-                    dados_do_carro = carro.copy()
-                    view.listar_manutencoes(dados_do_carro)
-                    escolha = view.escolha_deletar_manutencao()
-                    while True: #Validação da escolha
-                        validacao, escolha = validacoes.validar_escolha_de_deletar_manutencao(escolha, len(dados_do_carro["lista_de_manutencoes"]))
-                        if validacao:
-                            break
-                        else:
-                            escolha = view.reescolha_deletar_manutencao()
-                    del dados_do_carro["lista_de_manutencoes"][escolha-1]
-                    print(arquivos.salvar_dados(dados))
-                else:
-                    print(f"\nNão existem manutenções no veículo de placa {placa}.\n")
-
-            
-
-        
-        
-        
+            dados = arquivos.carregar_dados(placa)
+            view.listar_manutencoes(dados)
+            if dados != []:
+                escolha = view.escolha_deletar_manutencao()
+                while True:
+                    validacao, escolha = validacoes.validar_escolha_de_deletar_manutencao(escolha, len(dados))
+                    if validacao:
+                        arquivos.deletar_manutencao(escolha)
+                        break
+                    else:
+                        escolha = view.reescolha_deletar_manutencao()
+                
         elif escolha == 0:
             quit()
 executar_controller()
