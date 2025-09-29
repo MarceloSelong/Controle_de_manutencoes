@@ -1,4 +1,4 @@
-import arquivos, view, validacoes, models
+import arquivos, view, validacoes
 def nova_manutencao(id_veiculo):
     continuar_informando_servicos = "S"
     while continuar_informando_servicos == "S": #Laço pra informar os serviços
