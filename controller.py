@@ -124,7 +124,7 @@ def executar_controller():
             if not dados:
                 print("\nNão existem manutenções no veículo com esta placa.\n")
             else:
-                view.listar_manutencoes(dados)
+                view.listar_manutencoes(dados, arquivos.tamanho_str_descricao())
 
         elif escolha == 3:#DELETA A MANUTENÇÃO ESCOLHIDA DO VEÍCULO
             placa = view.pedir_placa()
@@ -135,11 +135,12 @@ def executar_controller():
                 else:
                     placa = view.reescolha_da_placa()
             dados = arquivos.carregar_dados(placa)
-            view.listar_manutencoes(dados)
+            
+            view.listar_manutencoes(dados, arquivos.tamanho_str_descricao())
             if dados != []:
                 escolha = view.escolha_deletar_manutencao()
                 while True:
-                    validacao, escolha = validacoes.validar_escolha_de_deletar_manutencao(escolha, len(dados))
+                    validacao, escolha = validacoes.validar_escolha_de_deletar_manutencao(escolha, dados)
                     if validacao:
                         arquivos.deletar_manutencao(escolha)
                         break

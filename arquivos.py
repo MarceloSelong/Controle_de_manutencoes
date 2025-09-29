@@ -97,7 +97,7 @@ def carregar_dados(placa):
     with sqlite3.connect("database/banco.db") as conexao:
         cursor = conexao.cursor()
         cursor.execute("""
-            SELECT descricao, custo, data, quilometragem
+            SELECT manutencoes.id, descricao, custo, data, quilometragem
             FROM manutencoes
             JOIN veiculos ON manutencoes.id_carro = veiculos.id
             WHERE placa = ?
@@ -118,3 +118,15 @@ def deletar_manutencao(id_manutencao):
         print("\nDeletada com sucesso.\n")
     except Exception as e:
         print(f"Erro ao apagar do banco: \033[1;31m{e}\033[0m")
+def tamanho_str_descricao():
+    with sqlite3.connect("database/banco.db") as conexao:
+        cursor = conexao.cursor()
+        cursor.execute("""
+            SELECT LENGTH(descricao)
+            FROM manutencoes
+            ORDER BY LENGTH(descricao) DESC
+            LIMIT 1
+        """)
+        resultado = cursor.fetchone()
+        if resultado != None:
+            return resultado[0]

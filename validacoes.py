@@ -55,11 +55,13 @@ def validar_escolha(escolha):
         return True, str(escolha)
     else:
         return False, escolha
-def validar_escolha_de_deletar_manutencao(escolha, tamanho_dados_do_carro):
+def validar_escolha_de_deletar_manutencao(escolha, dados):
     try:
         escolha_int = int(escolha)
-        if 0 < escolha_int <= tamanho_dados_do_carro:
-            return True, escolha_int
+        for c in dados:
+            if escolha_int == c[0]:
+                return True, escolha_int
+    
         else:
             return False, escolha_int
     except:
