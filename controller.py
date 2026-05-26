@@ -1,97 +1,26 @@
 import arquivos, view, validacoes
-"""from flask import Flask, render_template
+from flask import Flask, render_template
 app = Flask(__name__)
 @app.route("/")
 def homepage():
     km_atual = arquivos.ultima_quilometragem()
     return render_template("home.html", km=km_atual)
 
-if __name__ == "__main__":
-    app.run(debug=True)
-    
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def nova_manutencao(id_veiculo):
-    continuar_informando_servicos = "S"
-    while continuar_informando_servicos == "S": #Laço pra informar os serviços
-        km, data = view.km_data_nova_manutencao() #Entrada da data e km           #KM E DATA
-        while True: #Validação da km
-            validacao, km = validacoes.validacao_do_km(km)
-            if validacao:
-                break
-            else: 
-                km = view.reentrada_da_quilometragem()   
-        while True: #Validação da data
-            validacao, data = validacoes.validacao_da_data(data) 
-            if validacao:
-                break
-            else:
-                data = view.reentrada_da_data()       
-        descricao, custo_str = view.entrada_do_servico()                             #DESCRIÇÃO DO SERVIÇO
-        while True: #Valida se é um valor numérico.                               #CUSTO DO SERVIÇO
-            validacao, custo_float = validacoes.validar_custo(custo_str)
-            if validacao:
-                break
-            else:
-                custo = view.reentrada_custo()
-
-        id_servico = arquivos.salvar_servico(id_veiculo, descricao, custo_float, data, km) #Salva o serviço realizado no BD e retorna o ID dele
-        if id_servico == 0: #Se o retorno do ID da manutenção for 0, ocorreu um erro no salvamento. Então, pula o resto do laço.
-            print("Informe novamente a manutenção.")
-            continue
-        else:
-            continuar_informando_pecas = "S"
-            while continuar_informando_pecas == "S": #Laço para informar as peças.
-                descricao_da_peca, marca_da_peca, valor_da_peca_str = view.entrada_pecas()   #DESCRIÇÃO DA PEÇA
-                while True: #Validação do valor da peça   #VALOR DA PEÇA
-                    validacao, valor_da_peca_float = validacoes.validar_valor_da_peca(valor_da_peca_str)
-                    if validacao:
-                        break
-                    else:
-                        valor_da_peca_str = view.reentrada_valor_da_peca()
-                retorno = arquivos.salvar_peca(id_servico, descricao_da_peca, marca_da_peca, valor_da_peca_float)
-                if retorno == 0:
-                    print("Repita a operação.")
-                    continue
-                else:
-                    print(retorno)
-                continuar_informando_pecas = view.informar_mais_pecas()
-                while True: #Validação da escolha de adicionar mais peças
-                    validacao, continuar_informando_pecas = validacoes.validar_escolha(continuar_informando_pecas)
-                    if validacao:
-                        break
-                    else:
-                        continuar_informando_pecas = view.reescolha_informar_mais()
-
-
-        continuar_informando_servicos = view.informar_mais_servicos() 
-        while True: #Validação da escolha de adicionar mais serviços
-            validacao, continuar_informando_servicos = validacoes.validar_escolha(continuar_informando_servicos)
-            if validacao:
-                break
-            else:
-                continuar_informando_servicos = view.reescolha_informar_mais()
 def executar_controller():
+    arquivos.inicializar_arquivo()
+
+
+if __name__ == "__main__":
+    executar_controller()
+    app.run(debug=False)
+
+
+
+
+
+   
+    
+"""def executar_controller():
     arquivos.inicializar_arquivo()
     while True:
         escolha = view.menu()
@@ -181,4 +110,68 @@ def executar_controller():
                 
         elif escolha == 0:
             quit()
-executar_controller()
+executar_controller()"""
+
+
+"""def nova_manutencao(id_veiculo):
+    continuar_informando_servicos = "S"
+    while continuar_informando_servicos == "S": #Laço pra informar os serviços
+        km, data = view.km_data_nova_manutencao() #Entrada da data e km           #KM E DATA
+        while True: #Validação da km
+            validacao, km = validacoes.validacao_do_km(km)
+            if validacao:
+                break
+            else: 
+                km = view.reentrada_da_quilometragem()   
+        while True: #Validação da data
+            validacao, data = validacoes.validacao_da_data(data) 
+            if validacao:
+                break
+            else:
+                data = view.reentrada_da_data()       
+        descricao, custo_str = view.entrada_do_servico()                             #DESCRIÇÃO DO SERVIÇO
+        while True: #Valida se é um valor numérico.                               #CUSTO DO SERVIÇO
+            validacao, custo_float = validacoes.validar_custo(custo_str)
+            if validacao:
+                break
+            else:
+                custo = view.reentrada_custo()
+
+        id_servico = arquivos.salvar_servico(id_veiculo, descricao, custo_float, data, km) #Salva o serviço realizado no BD e retorna o ID dele
+        if id_servico == 0: #Se o retorno do ID da manutenção for 0, ocorreu um erro no salvamento. Então, pula o resto do laço.
+            print("Informe novamente a manutenção.")
+            continue
+        else:
+            continuar_informando_pecas = "S"
+            while continuar_informando_pecas == "S": #Laço para informar as peças.
+                descricao_da_peca, marca_da_peca, valor_da_peca_str = view.entrada_pecas()   #DESCRIÇÃO DA PEÇA
+                while True: #Validação do valor da peça   #VALOR DA PEÇA
+                    validacao, valor_da_peca_float = validacoes.validar_valor_da_peca(valor_da_peca_str)
+                    if validacao:
+                        break
+                    else:
+                        valor_da_peca_str = view.reentrada_valor_da_peca()
+                retorno = arquivos.salvar_peca(id_servico, descricao_da_peca, marca_da_peca, valor_da_peca_float)
+                if retorno == 0:
+                    print("Repita a operação.")
+                    continue
+                else:
+                    print(retorno)
+                continuar_informando_pecas = view.informar_mais_pecas()
+                while True: #Validação da escolha de adicionar mais peças
+                    validacao, continuar_informando_pecas = validacoes.validar_escolha(continuar_informando_pecas)
+                    if validacao:
+                        break
+                    else:
+                        continuar_informando_pecas = view.reescolha_informar_mais()
+
+
+        continuar_informando_servicos = view.informar_mais_servicos() 
+        while True: #Validação da escolha de adicionar mais serviços
+            validacao, continuar_informando_servicos = validacoes.validar_escolha(continuar_informando_servicos)
+            if validacao:
+                break
+            else:
+                continuar_informando_servicos = view.reescolha_informar_mais()"""
+
+
