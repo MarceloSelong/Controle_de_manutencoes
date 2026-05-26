@@ -24,7 +24,8 @@ def cadastro_novo_veiculo():
     modelo = input("Informe o modelo: ").strip()
     marca = input("Informe a marca: ").strip()
     ano = input("Informe o ano: ").strip()
-    return modelo, marca, ano
+    quilometragem_atual = input("Informe a quilometragem atual: ").strip()
+    return modelo, marca, ano, quilometragem_atual
 def reescolha_ano():
     reescolha = input("Ano inválido, informe um número inteiro: ").strip()
     return reescolha

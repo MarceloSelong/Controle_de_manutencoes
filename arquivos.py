@@ -11,7 +11,8 @@ def inicializar_arquivo():
                     modelo TEXT,
                     marca TEXT,
                     ano INTEGER,
-                    placa TEXT
+                    placa TEXT,
+                    quilometragem_atual INTEGER
                 )
             """)
             cursor.execute("""
@@ -44,15 +45,15 @@ def carregar_placas():
         """)
         resultado = cursor.fetchall()
         return resultado
-def salvar_veiculo(placa, modelo, marca, ano):
+def salvar_veiculo(placa, modelo, marca, ano, quilometragem_atual):
     #Salva os dados do veículo no BD e retorna o Id dele
     try:
         with sqlite3.connect("database/banco.db") as conexao:
             cursor = conexao.cursor()
             cursor.execute("""
-                INSERT INTO veiculos(placa, modelo, marca, ano)
-                VALUES(?, ?, ?, ?)
-            """, (placa, modelo, marca, ano))
+                INSERT INTO veiculos(placa, modelo, marca, ano, quilometragem_atual)
+                VALUES(?, ?, ?, ?, ?)
+            """, (placa, modelo, marca, ano, quilometragem_atual))
         return cursor.lastrowid
     except Exception as e:
         print(f"Erro ao salvar no banco: \033[1;31m{e}\033[0m")
@@ -130,3 +131,24 @@ def tamanho_str_descricao():
         resultado = cursor.fetchone()
         if resultado != None:
             return resultado[0]
+def ultima_quilometragem():
+    conn = sqlite3.connect("database/banco.db")
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""
+        SELECT quilometragem 
+        FROM manutencoes 
+        ORDER BY id 
+        DESC LIMIT 1""")
+        resultado = cursor.fetchone()
+        if resultado:
+            km_atual = resultado[0]
+        else:
+            km_atual = 0
+    except sqlite3.OperationalError as e:
+        print(f"Erro no banco: {e}")
+        km_atual = "Erro ao carregar"
+    finally:
+        conn.close()
+        
+    return km_atual

@@ -1,4 +1,36 @@
 import arquivos, view, validacoes
+"""from flask import Flask, render_template
+app = Flask(__name__)
+@app.route("/")
+def homepage():
+    km_atual = arquivos.ultima_quilometragem()
+    return render_template("home.html", km=km_atual)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def nova_manutencao(id_veiculo):
     continuar_informando_servicos = "S"
     while continuar_informando_servicos == "S": #Laço pra informar os serviços
@@ -93,11 +125,11 @@ def executar_controller():
                     else:
                         escolha = view.reescolha_de_cadastrar_novo_veiculo()
                 if escolha == "S": #Cadastra novo veículo
-                    modelo, marca, ano = view.cadastro_novo_veiculo() #Entrada de dados pro cadastrodo novo veículo.
+                    modelo, marca, ano, quilometragem_atual = view.cadastro_novo_veiculo() #Entrada de dados pro cadastrodo novo veículo.
                     while True: #Valida o ano do veículo e salva os dados no arquivo. 
                         validacao, ano = validacoes.validar_ano(ano)
                         if validacao:
-                            id_veiculo = arquivos.salvar_veiculo(placa, modelo, marca, ano) #Puxa a placa do início, onde foi informada pra verificação no sistema
+                            id_veiculo = arquivos.salvar_veiculo(placa, modelo, marca, ano, quilometragem_atual) #Puxa a placa do início, onde foi informada pra verificação no sistema
                             if id_veiculo == 0:
                                 break
                             else:
