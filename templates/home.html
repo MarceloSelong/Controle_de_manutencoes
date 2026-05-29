@@ -6,12 +6,14 @@
     <title>Manutenções</title>
     <style>
         header {
+            position:absolute;
             background-color: #212529;
             color: white;
             padding: 20px;
             border: 2px solid black;
             border-radius: 10px;
             text-align: center;
+            width: 100%;
         }
         body {
             margin: 0;
@@ -22,7 +24,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 5vh;
+            min-height: 100vh;
         }
         .card {
             background-color: #212529;
@@ -32,6 +34,7 @@
             border: 2px solid ;
             border-radius: 10px;
         }
+       
     </style>
 </head>
 
@@ -40,7 +43,11 @@
     🚗 Garagem Digital - Controle de Manutenções
     </header>
     <div class="container-principal">
-        <div class="card">Última quilometragem: {{km}}</div>
+        <form class="card" action="/verificar-placa" method="POST">
+            Informe a placa: 
+            <input type="text" name="placa_input" placeholder="ABC1D23" maxlength="7" required>
+            <button type="submit" style="display: inline;">Verificar</button>
+        </form>
     </div>
 
 </body>

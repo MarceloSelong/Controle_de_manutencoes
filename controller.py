@@ -1,10 +1,16 @@
 import arquivos, view, validacoes
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.route("/")
 def homepage():
     km_atual = arquivos.ultima_quilometragem()
     return render_template("home.html", km=km_atual)
+
+@app.route("/verificar-placa", methods=['POST'])
+def verificar_placa():
+    placa_recebida = request.form.get('placa_input')
+    veiculo_encontrado = arquivos.verificar_placa(placa_recebida)
+    return render_template("manutencoes.html", veiculo=veiculo_encontrado)
 
 def executar_controller():
     arquivos.inicializar_arquivo()
@@ -12,7 +18,7 @@ def executar_controller():
 
 if __name__ == "__main__":
     executar_controller()
-    app.run(debug=False)
+    app.run(debug=True)
 
 
 

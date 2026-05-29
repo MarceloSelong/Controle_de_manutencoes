@@ -39,7 +39,17 @@ def inicializar_arquivo():
         SELECT name FROM sqlite_master
         WHERE type='table'
         """)
-        print(cursor.fetchall())
+def verificar_placa(placa_recebida):
+    with sqlite3.connect("database/banco.db") as conexao:
+        cursor = conexao.cursor()
+        cursor.execute("""
+            SELECT *
+            FROM veiculos
+            WHERE placa = ?
+            """, (placa_recebida,))
+        veiculo_encontrado = cursor.fetchone()
+    return veiculo_encontrado
+
 def carregar_placas():
     with sqlite3.connect("database/banco.db") as conexao:
         cursor = conexao.cursor()
