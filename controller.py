@@ -17,6 +17,12 @@ def verificar_placa():
         #Se o veículo não foi encontrado no BD, envia um flag que renderiza um Warning que dá opção de incluir um novo veículo no registro ou não.
         return render_template('home.html', placa=placa_recebida, veiculo_encontrado=False)
 
+@app.route("/cadastrar_veiculo", methods=['POST'])
+def cadastrar_veiculo():
+    placa = request.form.get('placa', '').upper().strip()
+    return render_template('cadastrar_veiculo.html', placa=placa)
+
+
 
 def executar_controller():
     models.inicializar_arquivo()
