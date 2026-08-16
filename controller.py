@@ -15,10 +15,7 @@ def verificar_placa():
         return render_template('manutencoes.html', veiculo=veiculo, manutencoes=manutencoes)
     else:
         #Se o veículo não foi encontrado no BD, envia um flag que renderiza um Warning que dá opção de incluir um novo veículo no registro ou não.
-        return render_template('home.html', placa=placa_recebida, veiculo_nao_encontrado=True)
-
-
-
+        return render_template('home.html', placa=placa_recebida, veiculo_encontrado=False)
 
 
 def executar_controller():
