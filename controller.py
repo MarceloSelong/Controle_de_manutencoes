@@ -5,7 +5,6 @@ app.secret_key = 'sua_chave_secreta'
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    #TODO Refatorar, criar a parte do Warning e condição se não encontrar veículo no BD.
     return render_template('home.html')
 
 @app.route("/buscar", methods=['POST'])
@@ -15,8 +14,8 @@ def verificar_placa():
     if veiculo:
         return render_template('manutencoes.html', veiculo=veiculo, manutencoes=manutencoes)
     else:
-        #TODO Refatorar, criar a parte do Warning e condição se não encontrar veículo no BD. 
-        return render_template('home.html', placa=placa_recebida)
+        #Se o veículo não foi encontrado no BD, envia um flag que renderiza um Warning que dá opção de incluir um novo veículo no registro ou não.
+        return render_template('home.html', placa=placa_recebida, veiculo_nao_encontrado=True)
 
 
 

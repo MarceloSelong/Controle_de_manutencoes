@@ -42,6 +42,31 @@
             </button>
 
           </form>
+          {% if veiculo_nao_encontrado %}
+            <div class="alert alert-warning alert-dismissible fade show shadow-sm my-3" role="alert">
+                <h5 class="alert-heading fw-bold mb-2">Veículo não encontrado!</h5>
+                <p class="mb-3">
+                    O veículo com a placa <strong>{{ placa }}</strong> não foi localizado no sistema. Deseja cadastrá-lo agora?
+                </p>
+                <hr>
+                <div class="d-flex justify-content-center gap-2">
+                  <!-- Botão "Não": apenas fecha o alerta no HTML/Bootstrap -->
+                  <form action="/" method="GET" class="d-inline">
+                  <button type="submit" class="btn btn-outline-secondary btn-sm">
+                  Não
+                  </button>
+                  </form>
+                    <!-- Botão "Sim": envia um POST direto para a rota de cadastro -->
+                  <form action="/cadastrar_veiculo" method="POST" class="d-inline">
+                    <input type="hidden" name="placa" value="{{ placa }}">
+                    <button type="submit" class="btn btn-success btn-sm fw-bold">
+                        Sim, incluir veículo
+                    </button>
+                  </form>
+                </div>
+            </div>
+          {% endif %}
+
 
         </div>
 
