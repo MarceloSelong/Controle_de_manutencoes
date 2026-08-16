@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Veículo - Controle de Manutenções</title>
+    <!-- Link do Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light d-flex align-items-center justify-content-center min-vh-100">
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+
+                <!-- Cartão Principal -->
+                <div class="card shadow border-0 rounded-4 p-4">
+
+                    <!-- Cabeçalho -->
+                    <div class="text-center">
+                        <h1 class="h3 fw-bold text-primary mb-2">Cadastrar Novo Veículo</h1>
+                        <p class="text-muted mb-4 fs-6">Preencha os dados abaixo para registrar o veículo</p>
+                    </div>
+
+                    <!-- Formulário de Cadastro -->
+                    <form action="/salvar_veiculo" method="POST">
+
+                        <!-- Placa (Input Editável repassado no corpo da requisição) -->
+                        <div class="mb-3">
+                            <label for="placa" class="form-label fw-semibold text-secondary">Placa do Veículo</label>
+                            <input type="text" id="placa" name="placa" value="{{ placa }}"
+                                class="form-control form-control-lg text-center text-uppercase fw-bold border-2"
+                                placeholder="ABC1D23" maxlength="8" required>
+                        </div>
+
+                        <!-- Marca -->
+                        <div class="mb-3">
+                            <label for="marca" class="form-label fw-semibold text-secondary">Marca</label>
+                            <input type="text" id="marca" name="marca" class="form-control"
+                                placeholder="Ex: Nissan, Volkswagen, Fiat" required>
+                        </div>
+
+                        <!-- Modelo -->
+                        <div class="mb-3">
+                            <label for="modelo" class="form-label fw-semibold text-secondary">Modelo</label>
+                            <input type="text" id="modelo" name="modelo" class="form-control"
+                                placeholder="Ex: Versa, Gol, Uno" required>
+                        </div>
+
+                        <!-- Ano e Quilometragem Atual -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-6">
+                                <label for="ano" class="form-label fw-semibold text-secondary">Ano</label>
+                                <input type="number" id="ano" name="ano" class="form-control" placeholder="2018"
+                                    min="1900" max="2099" required>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="km" class="form-label fw-semibold text-secondary">Km Atual</label>
+                                <input type="number" id="km" name="km" class="form-control" placeholder="120000" min="0"
+                                    step="1" required>
+                            </div>
+                        </div>
+
+                        <!-- Ações: Botão de Salvar e Voltar -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                                Salvar Veículo
+                            </button>
+                            <a href="/" class="btn btn-outline-secondary btn-sm text-decoration-none">
+                                Cancelar e Voltar
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <!-- Rodapé simples -->
+                <p class="text-center text-muted mt-4 small">
+                    &copy; 2026 Controle de Manutenções. Todos os direitos reservados.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
