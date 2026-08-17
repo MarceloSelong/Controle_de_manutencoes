@@ -8,9 +8,9 @@ def home():
     return render_template('home.html')
 
 @app.route("/buscar", methods=['POST'])
-def verificar_placa():
+def verificar_banco():
     placa_recebida = request.form.get('placa', '').upper().strip()
-    veiculo, manutencoes = models.verificar_placa(placa_recebida) #Se a placa existir no BD, retorna os dados do veículo e suas manutenções. Se não, retorna None e uma lista vazia.
+    veiculo, manutencoes = models.verificar_banco(placa_recebida) #Se a placa existir no BD, retorna os dados do veículo e suas manutenções. Se não, retorna None e uma lista vazia.
     if veiculo:
         return render_template('manutencoes.html', veiculo=veiculo, manutencoes=manutencoes)
     else:
@@ -22,20 +22,15 @@ def cadastrar_veiculo():
     placa = request.form.get('placa', '').upper().strip()
     return render_template('cadastrar_veiculo.html', placa=placa)
 
-#TODO
+#FIXME
 @app.route("/salvar_veiculo", methods=["POST"])
 def salvar_veiculo():
     dados_do_veiculo = request.form.to_dict()
+    validacao, resposta = models.salvar_veiculo(dados_do_veiculo)
 
-    retorno, string = models.salvar_veiculo(dados_do_veiculo)
-
-    return render_template('cadastrar_veiculo.html', validacao=retorno, string=string)
-
-
-
-
-
-
+    placa = request.form.get('placa', '').upper().strip()
+    veiculo, manutencoes = models.verificar_banco(placa)
+    return render_template('manutencoes.html', validacao=validacao, string=resposta, veiculo=veiculo, manutencoes=manutencoes)
 
 
 
@@ -48,3 +43,8 @@ if __name__ == "__main__":
 
 
 #TODO Deve ser adicionado a função de excluir registros em manutencoes.html
+#TODO Deve ser adicionado a função de inserir registros em manutencoes.html
+#TODO Deve ser adicionado a função de editar registros em manutencoes.html
+#TODO Deve ser adicionado função que lista veiculos existentes
+#TODO Deve ser adicionado a função de excluir veículos do registro
+#FIXME Deve ser refatorada a função de salvar_veiculo para que retorne pra tela de manutencoes do veículo recém cadastrado
