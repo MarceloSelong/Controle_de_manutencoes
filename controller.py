@@ -22,6 +22,21 @@ def cadastrar_veiculo():
     placa = request.form.get('placa', '').upper().strip()
     return render_template('cadastrar_veiculo.html', placa=placa)
 
+#TODO
+@app.route("/salvar_veiculo", methods=["POST"])
+def salvar_veiculo():
+    dados_do_veiculo = request.form.to_dict()
+
+    retorno, string = models.salvar_veiculo(dados_do_veiculo)
+
+    return render_template('cadastrar_veiculo.html', validacao=retorno, string=string)
+
+
+
+
+
+
+
 
 
 def executar_controller():
@@ -29,3 +44,7 @@ def executar_controller():
 if __name__ == "__main__":
     executar_controller()
     app.run(debug=True)
+
+
+
+#TODO Deve ser adicionado a função de excluir registros em manutencoes.html
