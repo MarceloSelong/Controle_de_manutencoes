@@ -39,7 +39,7 @@ def inicializar_arquivo():
         SELECT name FROM sqlite_master
         WHERE type='table'
         """)
-def verificar_placa(placa_recebida):
+def verificar_banco(placa_recebida):
     with sqlite3.connect("database/banco.db") as conexao:
         conexao.row_factory = sqlite3.Row
         cursor = conexao.cursor()
