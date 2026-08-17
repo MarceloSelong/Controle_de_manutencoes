@@ -7,7 +7,7 @@ app.secret_key = 'sua_chave_secreta'
 def home():
     return render_template('home.html')
 
-@app.route("/buscar", methods=['POST'])
+@app.route("/manutencoes", methods=['POST'])
 def verificar_banco():
     placa_recebida = request.form.get('placa', '').upper().strip()
     veiculo, manutencoes = models.verificar_banco(placa_recebida) #Se a placa existir no BD, retorna os dados do veículo e suas manutenções. Se não, retorna None e uma lista vazia.
