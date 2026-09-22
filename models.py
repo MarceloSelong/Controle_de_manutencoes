@@ -59,7 +59,6 @@ def verificar_banco(placa_recebida):
         """, (id_do_carro,))
         manutencoes = cursor.fetchall()
     return veiculo, manutencoes
-
 def salvar_veiculo(dados_do_veiculo):
     query = """
         INSERT INTO veiculos (modelo, marca, ano, placa, quilometragem)
@@ -84,3 +83,24 @@ def salvar_veiculo(dados_do_veiculo):
 
     except sqlite3.Error as e:
         return False, "Erro ao salvar veículo no SQLite: {e}"
+
+def salvar_manutencao(dados_da_manutencao):
+    query = """
+        INSERT INTO manutencoes (id_carro, descricao, custo, data, quilometragem)
+        VALUES (?, ?, ?, ?, ?)
+    """
+    valores = (
+        dados_da_manutencao.get('id_carro'),
+        dados_da_manutencao.get('descricao'),
+        dados_da_manutencao.get('custo'),
+        dados_da_manutencao.get('data'),
+        dados_da_manutencao.get('quilometragem')
+    )
+    try:
+        with sqlite3.connect("database/banco.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute(query, valores)
+        return True, "Salvo com sucesso."
+    except sqlite3.Error as e:
+        return False, "Erro ao salvar manutenção no SQLite: {e}"
+
