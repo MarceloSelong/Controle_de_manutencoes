@@ -1,5 +1,6 @@
 import models
-from flask import Flask, render_template, request
+from flask import Flask, flash, render_template, request
+from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta'
 
@@ -28,30 +29,29 @@ def funcao():
     else:
         print(string)
 
-    
-
-
-
+@app.route('/manutencao/<int:id>/excluir', methods=['POST'])    
+def exluir_manutencao(id):
+    placa = request.form.get('placa')
+    state = models.excluir_manutencao(id)
+    if state:
+        flash('Manutenção excluída com sucesso!', 'success')
+        veiculo, manutencoes = models.verificar_banco(placa)
+        return render_template('manutencoes.html', veiculo=veiculo, manutencoes=manutencoes, veiculo_encontrado=True)
+    else:
+        flash(f'Erro ao excluir manutenção: {state}', 'danger')
+        veiculo, manutencoes = models.verificar_banco(placa)
+        return render_template('manutencoes.html', veiculo=veiculo, manutencoes=manutencoes, veiculo_encontrado=True)
 @app.route("/cadastrar_veiculo", methods=['POST'])
 def cadastrar_veiculo():
     placa = request.form.get('placa', '').upper().strip()
     return render_template('cadastrar_veiculo.html', placa=placa)
 
-#FIXME
 @app.route("/salvar_veiculo", methods=["POST"])
 def salvar_veiculo():
     dados_do_veiculo = request.form.to_dict()
     validacao, resposta = models.salvar_veiculo(dados_do_veiculo)
-
-    placa = request.form.get('placa', '').upper().strip()
-    veiculo, manutencoes = models.verificar_banco(placa)
+    veiculo, manutencoes = models.verificar_banco(dados_do_veiculo['placa'])
     return render_template('manutencoes.html', validacao=validacao, string=resposta, veiculo=veiculo, manutencoes=manutencoes)
-
-
-
-
-
-
 
 
 def executar_controller():
@@ -61,9 +61,6 @@ if __name__ == "__main__":
     app.run(debug=True)
 
 
-
-#TODO Deve ser adicionado a função de excluir registros em manutencoes.html
 #TODO Deve ser adicionado a função de editar registros em manutencoes.html
 #TODO Deve ser adicionado função que lista veiculos existentes
 #TODO Deve ser adicionado a função de excluir veículos do registro
-#FIXME Deve ser refatorada a função de salvar_veiculo para que retorne pra tela de manutencoes do veículo recém cadastrado
