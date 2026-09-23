@@ -53,7 +53,7 @@ def verificar_banco(placa_recebida):
             return None, []
         id_do_carro = veiculo['id']
         cursor.execute("""
-        SELECT descricao, data, quilometragem, custo
+        SELECT id, descricao, data, quilometragem, custo
         FROM manutencoes
         WHERE id_carro = ?
         """, (id_do_carro,))
@@ -83,7 +83,6 @@ def salvar_veiculo(dados_do_veiculo):
 
     except sqlite3.Error as e:
         return False, "Erro ao salvar veículo no SQLite: {e}"
-
 def salvar_manutencao(dados_da_manutencao):
     query = """
         INSERT INTO manutencoes (id_carro, descricao, custo, data, quilometragem)
@@ -103,4 +102,14 @@ def salvar_manutencao(dados_da_manutencao):
         return True, "Salvo com sucesso."
     except sqlite3.Error as e:
         return False, "Erro ao salvar manutenção no SQLite: {e}"
-
+def excluir_manutencao(id):
+    try:
+        conexao = sqlite3.connect('database/banco.db')
+        conexao.row_factory = sqlite3.Row
+        cursor = conexao.cursor()
+        cursor.execute('DELETE FROM manutencoes WHERE id = ?', (id,))
+        conexao.commit()
+        conexao.close()
+        return True
+    except Exception as e:
+        return e
