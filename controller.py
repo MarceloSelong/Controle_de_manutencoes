@@ -19,8 +19,14 @@ def listar_manutencoes():
         return render_template('home.html', placa=placa, veiculo_encontrado=False)
 
 @app.route("/manutencoes/adicionar", methods=['POST'])
-def funcao():
+def adicionar():
     dados = request.form.to_dict()
+    #Formatação da data
+    data = request.form["data"]
+    objeto_data = datetime.strptime(data, "%Y-%m-%d")
+    data_formatada = objeto_data.strftime("%d/%m/%Y")
+    dados['data'] = data_formatada
+    #---#
     salvo, string = models.salvar_manutencao(dados)
     if salvo:
         placa = request.form.get('placa', '').upper().strip()
