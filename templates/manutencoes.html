@@ -17,6 +17,14 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
           <a href="/" class="btn btn-outline-secondary btn-sm fw-semibold">&larr; Nova Consulta</a>
           <span class="badge bg-success fs-6">Veículo Localizado</span>
+          <!-- Botão de Excluir Veículo -->
+            <form action="/{{ veiculo.id }}/excluir_veiculo" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza absoluta que deseja excluir este veículo e todo o seu histórico de manutenções?');">
+              <button type="submit" class="btn btn-outline-danger btn-sm fw-semibold" title="Excluir veículo">
+                Excluir Veículo
+              </button>
+            </form>
+          </div>
+        </div>
         </div>
 
         <!-- CARD 1: Dados Principais do Veículo -->
