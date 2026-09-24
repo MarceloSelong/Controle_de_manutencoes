@@ -113,3 +113,14 @@ def excluir_manutencao(id):
         return True
     except Exception as e:
         return e
+def excluir_veiculo(veiculo_id):
+    try:
+        with sqlite3.connect('database/banco.db') as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("DELETE FROM veiculos WHERE id = ?", (veiculo_id,))
+            cursor.execute("DELETE FROM manutencoes WHERE id_carro = ?", (veiculo_id,))
+            # O 'with' com sqlite3 faz o commit automático se tudo ocorrer bem
+        return True, 'Veículo e suas manutenções foram excluídos com sucesso!'  
+    except sqlite3.Error as e:
+        return False, e
+    
