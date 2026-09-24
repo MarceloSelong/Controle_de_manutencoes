@@ -1,10 +1,10 @@
 import models
-from flask import Flask, flash, render_template, request
+from flask import Flask, flash, render_template, request, redirect, url_for
 from datetime import datetime
 app = Flask(__name__)
 app.secret_key = 'sua_chave_secreta'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST']) #Rota 
 def home():
     return render_template('home.html')
 
@@ -53,6 +53,15 @@ def salvar_veiculo():
     veiculo, manutencoes = models.verificar_banco(dados_do_veiculo['placa'])
     return render_template('manutencoes.html', validacao=validacao, string=resposta, veiculo=veiculo, manutencoes=manutencoes)
 
+@app.route('/<int:veiculo_id>/excluir_veiculo', methods=['POST'])
+def excluir_veiculo(veiculo_id):
+    state, string = models.excluir_veiculo(veiculo_id)
+    if state:
+        flash(string, 'success')
+        return redirect(url_for('home'))
+    else:
+        flash(f'Erro ao tentar excluir o veículo: {string}', 'danger')
+        return redirect(url_for('home'))
 
 def executar_controller():
     models.inicializar_arquivo()
@@ -63,4 +72,4 @@ if __name__ == "__main__":
 
 #TODO Deve ser adicionado a função de editar registros em manutencoes.html
 #TODO Deve ser adicionado função que lista veiculos existentes
-#TODO Deve ser adicionado a função de excluir veículos do registro
+#FIXME Formato da data inserida no bd
